@@ -1,0 +1,275 @@
+11.9（最大的行和列）
+import java.util.Scanner;
+import java.util.ArrayList;
+public class Practice {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input=new Scanner(System.in);
+		System.out.print("Enter the array size n: ");
+		int n=input.nextInt();
+		int[][] array=new int[n][n];
+		ArrayList<Integer> row=new ArrayList<Integer>();
+		ArrayList<Integer> column=new ArrayList<Integer>();
+		
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n;j++) {
+				array[i][j]=(int)(Math.random()*2);
+			}
+		}
+		
+		for(int i=0;i<n;i++) {
+			int total=0;
+			for(int j=0;j<n;j++) {
+				if(array[i][j]==1) {
+					total++;
+				}
+			}
+			row.add(total);
+		}
+		
+		for(int j=0;j<n;j++) {
+			int total=0;
+			for(int i=0;i<n;i++) {
+				if(array[i][j]==1) {
+					total++;
+				}
+			}
+			column.add(total);
+		}
+		
+		System.out.println("The random array is ");
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n;j++) {
+				System.out.print(array[i][j]+" ");
+			}
+			System.out.print('\n');
+		}
+		
+		ArrayList<Integer> rowmaxindex=new ArrayList<Integer>();
+		Integer rowmax=java.util.Collections.max(row);
+		rowmaxindex.add(row.indexOf(rowmax));
+		for(int i=0;i<row.size();i++) {
+			if(row.get(i)==rowmax && !rowmaxindex.contains(i)) {
+				rowmaxindex.add(i);
+			}
+		}
+		
+		System.out.print("The largest row index: ");
+		for(int i=0;i<rowmaxindex.size();i++) {
+			System.out.print(rowmaxindex.get(i)+" ");
+		}
+		System.out.print('\n');
+		
+		ArrayList<Integer> columnmaxindex=new ArrayList<Integer>();
+		Integer columnmax=java.util.Collections.max(column);
+		columnmaxindex.add(column.indexOf(columnmax));
+		for(int i=0;i<column.size();i++) {
+			if(columnmax==column.get(i) && !columnmaxindex.contains(i)) {
+				columnmaxindex.add(i);
+			}
+		}
+		
+		System.out.print("The largest column index: ");
+		for(int i=0;i<columnmaxindex.size();i++) {
+			System.out.print(columnmaxindex.get(i)+" ");
+		}
+	}
+
+}
+
+
+
+
+
+11.13（去掉重复元素）
+法一：
+import java.util.Scanner;
+import java.util.ArrayList;
+public class Practice {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input=new Scanner(System.in);
+		System.out.print("Enter 10 integers: ");
+		ArrayList<Integer> cityList=new ArrayList<>();
+		for(int i=0;i<10;i++) {
+			int n=input.nextInt();
+			cityList.add(n);
+		}
+		removeDuplicate(cityList);
+		System.out.print("The distinct integers are: ");
+		for(int i=0;i<cityList.size();i++) {
+			System.out.print(cityList.get(i)+" ");
+		}
+	}
+	
+	//值比较
+	public static void removeDuplicate(ArrayList<Integer> List) {
+		int size=List.size();
+		int count=0;
+		for(int i=0;i<size-count;i++) {
+			for(int j=i+1;j<size-count;j++) {
+				if(List.get(i)==List.get(j)) {
+					List.remove(j);
+					count++;
+					j--;
+				}
+			}
+		}
+	}
+
+}
+
+
+法二：
+import java.util.Scanner;
+import java.util.ArrayList;
+public class Practice {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input=new Scanner(System.in);
+		System.out.print("Enter 10 integers: ");
+		ArrayList<Integer> cityList=new ArrayList<>();
+		for(int i=0;i<10;i++) {
+			int n=input.nextInt();
+			cityList.add(n);
+		}
+		removeDuplicate(cityList);
+		System.out.print("The distinct integers are: ");
+		for(int i=0;i<cityList.size();i++) {
+			System.out.print(cityList.get(i)+" ");
+		}
+	}
+	
+    //下标比较
+    public static void removeDuplicate(ArrayList<Integer> List) {
+    	int index=0;
+    	while(index<List.size()) {
+    		int value=List.get(index);
+    		if(List.indexOf(value)!=index) {
+    			List.remove(index);
+			}
+    		else{
+    			index++;
+		}
+	}
+   }
+    
+}
+
+
+
+
+
+11.15（凸多边形）
+public class MyPoint{
+	private double x;
+	private double y;
+ 
+    public MyPoint(){
+    	  x=0;
+        y=0;
+    }
+ 
+    public MyPoint(double x,double y){
+        this.x=x;
+        this.y=y;
+    }
+ 
+    public double getX(){
+        return x;
+    }
+ 
+    public double getY(){
+        return y;
+    }
+ 
+    public void setX(double x) {
+        this.x=x;
+    }
+ 
+    public void setY(double y) {
+        this.y=y;
+    }
+ 
+    public double distance(MyPoint p){
+        return Math.sqrt(Math.pow(this.x-p.x,2)+Math.pow(this.y-p.y,2));
+    }
+ 
+    public double diatance(double x,double y){
+        return Math.sqrt(Math.pow(this.x-x,2)+Math.pow(this.y-y,2));
+    }
+}
+
+
+
+import java.util.ArrayList;
+
+public class polygon{
+	
+	private ArrayList<MyPoint> array=new ArrayList<>();
+	
+	polygon(){
+	}
+	 
+	public void setPoint(MyPoint p){
+	    this.array.add(p);
+	}
+
+	public double Area(int number) {
+	    int i=0;
+	    double temp=0;
+	    for(;i<number-1;i++) {
+	        temp+=(this.array.get(i).getX()-this.array.get(i+1).getX())*(this.array.get(i).getY()+this.array.get(i+1).getY());
+	    }
+	    temp+=(this.array.get(i).getX()-this.array.get(0).getX())*(this.array.get(i).getY()+this.array.get(0).getY());
+	    if(temp<0) {
+	    	temp=-temp;
+	    }
+	    return temp/2;
+	}
+
+}
+
+
+
+import java.util.Scanner;
+
+public class testPolygon {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input=new Scanner(System.in);
+	    polygon p=new polygon();
+	    System.out.println("Enter the number of points：");
+	    int number=input.nextInt();
+	    System.out.print("Enter thecoordinates of the points:");
+	    System.out.print('\n');
+	    
+	    for(int i=0;i<number;i++)
+	    {
+	        double x=input.nextDouble();
+	        double y=input.nextDouble();
+	        MyPoint p1=new MyPoint(x,y);
+	        p.setPoint(p1);
+	    }
+	    
+	    System.out.println("The total area is："+p.Area(number));
+	}
+
+}
+
+
+
+
+
+11.18（字符数组列表）
+public static ArrayList<Character> toCharacterArray(String s){
+	ArrayList<Character> List=new ArrayList<>();
+	for(int i=0;i<s.length();i++) {
+		List.add(s.charAt(i));
+	}
+	return List;
+}
